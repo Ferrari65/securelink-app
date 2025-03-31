@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import { View, Text, Button, TextInput, Alert } from "react-native";
-import { checkUrl } from "../services/urlService"; // Importando o serviço de verificação de URL
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { checkUrl } from "../services/urlService";
+import styles from "../src/style/VerificarURLStyle";
+
+import LogoContainer from '../components/Logo';
 
 export default function VerificarURL() {
-  const [url, setUrl] = useState(""); // Estado para armazenar a URL inserida
-  const [status, setStatus] = useState(null); // Status da verificação (seguro ou malicioso)
-  const [message, setMessage] = useState(""); // Mensagem que será exibida ao usuário
+  const [url, setUrl] = useState("");
+  const [status, setStatus] = useState(null);
+  const [message, setMessage] = useState("");
 
   const handleVerificar = async () => {
     if (!url) {
@@ -14,7 +24,7 @@ export default function VerificarURL() {
     }
 
     try {
-      const result = await checkUrl(url); // Chama a função de verificação de URL
+      const result = await checkUrl(url);
       setStatus(result.status);
       setMessage(result.message);
     } catch (error) {
@@ -24,31 +34,52 @@ export default function VerificarURL() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 10 }}>Verificar URL</Text>
+    
+    <View style={styles.container}>
+       <LogoContainer />
+      <View style={styles.logoContainer}>
+      </View>
 
-      <TextInput
-        placeholder="Digite a URL"
-        value={url}
-        onChangeText={setUrl}
-        style={{
-          height: 40,
-          borderColor: "#ccc",
-          borderWidth: 1,
-          borderRadius: 5,
-          marginBottom: 10,
-          paddingHorizontal: 10,
-        }}
-      />
+      <TouchableOpacity style={styles.historicoBtn}>
+        <FontAwesome name="history" size={16} color="#AAA" />
+        <Text style={styles.historicoText}>Histórico</Text>
+      </TouchableOpacity>
 
-      <Button title="Verificar URL" onPress={handleVerificar} />
+      <Text style={styles.inputLabel}>Cole o Link para verificar riscos</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="https://exemplo.com"
+          placeholderTextColor="#aaa"
+          style={styles.input}
+          value={url}
+          onChangeText={setUrl}
+        />
+        <FontAwesome name="search" size={16} style={styles.searchIcon} />
+      </View>
 
-      {status && (
-        <View style={{ marginTop: 20 }}>
-          <Text>Status: {status}</Text>
-          <Text>Mensagem: {message}</Text>
-        </View>
+      <TouchableOpacity style={styles.button} onPress={handleVerificar}>
+        <Text style={styles.buttonText}>Verificar</Text>
+      </TouchableOpacity>
+
+      {status === "malicious" && (
+        <Text style={styles.alertMessage}>
+          <FontAwesome name="exclamation-triangle" size={14} color="#FF3B30" /> URL Maliciosa!
+        </Text>
       )}
+
+      <Text style={styles.inputLabel}>Cole o e-mail suspeito aqui...</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="exemplo@email.com"
+          placeholderTextColor="#aaa"
+          style={styles.input}
+        />
+        <FontAwesome name="search" size={16} style={styles.searchIcon} />
+      </View>
+
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Verificar</Text>
+      </TouchableOpacity>
     </View>
   );
 }

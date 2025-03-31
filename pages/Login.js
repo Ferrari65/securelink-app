@@ -1,17 +1,37 @@
 import React, { useState } from "react";
 import {
   View,
-  TextInput,
-  Button,
   Text,
+  TextInput,
   TouchableOpacity,
   Alert,
+  ImageBackground,
 } from "react-native";
-import { getData } from "../services/storage"; // Função de recuperação de dados
+import { FontAwesome } from "@expo/vector-icons";
+import { getData } from "../services/storage";
+import styles from "../src/style/loginStyle";
+import { LinearGradient } from 'expo-linear-gradient';
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+import AppLoading from "expo-app-loading";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
+  // Carrega as fontes
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   const handleLogin = async () => {
     if (!email || !senha) {
@@ -20,23 +40,15 @@ export default function Login({ navigation }) {
     }
 
     try {
-      // Recupera todos os usuários armazenados no AsyncStorage
-      const users = (await getData("users")) || []; // Garantindo que seja um array vazio se não houver dados
-
-      // Verifica se algum usuário tem o email e a senha correspondentes
+      const users = (await getData("users")) || [];
       const user = users.find(
         (user) => user.email === email && user.senha === senha
       );
 
       if (user) {
-        // Usuário encontrado, redireciona para a tela de verificação de URL
         navigation.navigate("URLVerification");
       } else {
-        // Exibe alerta se e-mail ou senha estiverem incorretos
-        Alert.alert(
-          "E-mail ou senha incorretos",
-          "Verifique suas credenciais."
-        );
+        Alert.alert("E-mail ou senha incorretos", "Verifique suas credenciais.");
       }
     } catch (error) {
       console.error("Erro ao fazer login", error);
@@ -45,46 +57,63 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 10 }}>Login</Text>
-      <TextInput
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        style={{
-          height: 40,
-          borderColor: "#ccc",
-          borderWidth: 1,
-          borderRadius: 5,
-          marginBottom: 10,
-          paddingHorizontal: 10,
-        }}
-      />
-      <TextInput
-        placeholder="Senha"
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
-        style={{
-          height: 40,
-          borderColor: "#ccc",
-          borderWidth: 1,
-          borderRadius: 5,
-          marginBottom: 20,
-          paddingHorizontal: 10,
-        }}
-      />
-      <Button title="Entrar" onPress={handleLogin} />
+    <ImageBackground
+      source={require('../src/img/fundoLogin.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.cardForm}>
+        <Text style={styles.titleStyle}>Login</Text>
 
-      {/* Botão para cadastrar */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Register")}
-        style={{ marginTop: 10 }}
-      >
-        <Text style={{ color: "blue", textAlign: "center" }}>
-          Não tem uma conta? Cadastre-se
+        {/* E-mail */}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="envelope" size={17} color="#636363" />
+          <TextInput
+            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]}
+            placeholder="E-mail"
+            placeholderTextColor="#aaa"
+            value={email}
+            onChangeText={setEmail}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+
+        {/* Senha */}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="lock" size={17} color="#636363" />
+          <TextInput
+            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]}
+            placeholder="Senha"
+            placeholderTextColor="#aaa"
+            secureTextEntry
+            value={senha}
+            onChangeText={setSenha}
+          />
+        </View>
+
+        {/* Botão */}
+        <LinearGradient
+          colors={["#ff6600", "#ff9900"]}
+          style={styles.button}
+        >
+          <TouchableOpacity
+            onPress={handleLogin}
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+
+        <Text style={styles.registerText}>
+          Não tem uma conta?
+          <Text
+            style={styles.registerLink}
+            onPress={() => navigation.navigate("Register")}
+          >
+            {" "}Cadastre-se
+          </Text>
         </Text>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </ImageBackground>
   );
 }

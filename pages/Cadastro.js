@@ -1,41 +1,52 @@
 import React, { useState } from "react";
 import {
   View,
-  TextInput,
-  Button,
   Text,
+  TextInput,
   TouchableOpacity,
+  ImageBackground,
   Alert,
 } from "react-native";
-import { saveData, getData } from "../services/storage"; // Funções de salvamento e recuperação de dados
+import { FontAwesome } from "@expo/vector-icons";
+import { saveData, getData } from "../services/storage";
+import styles from "../src/style/cadastroStyle";
+
+import { LinearGradient } from 'expo-linear-gradient';
+
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
+import AppLoading from "expo-app-loading";
 
 export default function Cadastro({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
+  // Carregar as fontes
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+  });
+
+  // Caso as fontes não estejam carregadas, exibe uma tela de carregamento
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   const handleCadastro = async () => {
     if (email && senha) {
       try {
-        // Recupera todos os usuários já cadastrados
-        const existingUsers = (await getData("users")) || []; // Se não houver usuários, começa com array vazio
+        const existingUsers = (await getData("users")) || [];
 
-        // Verifica se o e-mail já existe
         const userExists = existingUsers.some((user) => user.email === email);
 
         if (userExists) {
           Alert.alert("E-mail já em uso", "Este e-mail já foi cadastrado.");
         } else {
-          // Adiciona o novo usuário ao array de usuários
           const newUser = { email, senha };
           const updatedUsers = [...existingUsers, newUser];
 
-          // Salva o array de usuários atualizado
           await saveData("users", updatedUsers);
 
-          Alert.alert(
-            "Cadastro concluído!",
-            "Sua conta foi criada com sucesso."
-          );
+          Alert.alert("Cadastro concluído!", "Sua conta foi criada com sucesso.");
         }
       } catch (error) {
         console.error("Erro ao salvar os dados", error);
@@ -46,46 +57,57 @@ export default function Cadastro({ navigation }) {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 10 }}>Cadastro</Text>
-      <TextInput
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        style={{
-          height: 40,
-          borderColor: "#ccc",
-          borderWidth: 1,
-          borderRadius: 5,
-          marginBottom: 10,
-          paddingHorizontal: 10,
-        }}
-      />
-      <TextInput
-        placeholder="Senha"
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
-        style={{
-          height: 40,
-          borderColor: "#ccc",
-          borderWidth: 1,
-          borderRadius: 5,
-          marginBottom: 20,
-          paddingHorizontal: 10,
-        }}
-      />
-      <Button title="Cadastrar" onPress={handleCadastro} />
+    <ImageBackground
+      source={require('../src/img/fundoLogin.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.cardForm}>
+        <Text style={styles.titleStyle}>Cadastro</Text>
 
-      {/* Botão para voltar à tela de Login */}
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={{ marginTop: 10 }}
-      >
-        <Text style={{ color: "blue", textAlign: "center" }}>
-          Já tem uma conta? Faça Login
+        {/* Campo E-mail */}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="envelope" size={17} color="#636363" />
+          <TextInput
+            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]} // Aplicando a cor branca
+            placeholder="E-mail"
+            placeholderTextColor="#aaa"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
+
+        {/* Campo Senha */}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="lock" size={17} color="#636363" />
+          <TextInput
+            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]} // Aplicando a cor branca
+            placeholder="Senha"
+            placeholderTextColor="#aaa"
+            secureTextEntry
+            value={senha}
+            onChangeText={setSenha}
+          />
+        </View>
+
+        {/* Linear Gradient no fundo do botão */}
+        <LinearGradient
+          colors={["#ff6600", "#ff9900"]}  // Cores do gradiente
+          style={styles.button}  // Usando o estilo já existente para o botão
+        >
+          <TouchableOpacity onPress={handleCadastro} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={styles.buttonText}>Cadastrar</Text> 
+          </TouchableOpacity>
+        </LinearGradient>
+
+        <Text style={styles.registerText}>
+          Já tem uma conta?
+          <Text style={styles.registerLink} onPress={() => navigation.goBack()}>
+            {" "}Faça Login
+          </Text>
         </Text>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </ImageBackground>
   );
 }
+ 
