@@ -1,4 +1,6 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 const cadastroStyle = StyleSheet.create({
   background: {
@@ -10,9 +12,8 @@ const cadastroStyle = StyleSheet.create({
 
   cardForm: {
     width: "100%",
-    height: "90%",
     maxWidth: 370,
-    maxHeight: 500,
+    height: height * 0.85, // 85% da tela
     backgroundColor: "#2C2C2E",
     padding: 24,
     borderTopLeftRadius: 40,
@@ -28,7 +29,7 @@ const cadastroStyle = StyleSheet.create({
   },
 
   titleStyle: {
-    marginTop: "18",
+    marginTop: 18, // Corrigido: número, não string
     color: "white",
     fontSize: 26,
     fontWeight: "bold",
@@ -44,7 +45,7 @@ const cadastroStyle = StyleSheet.create({
     paddingVertical: 14,
     borderWidth: 2,
     borderColor: "#3B3B3F",
-    marginTop: "35",
+    marginTop: 16, // Corrigido
     marginBottom: 16,
     width: "100%",
     backgroundColor: "#2C2C2E",
@@ -56,18 +57,18 @@ const cadastroStyle = StyleSheet.create({
     fontSize: 16,
     color: "white",
     fontFamily: "Poppins_400Regular",
-    ...(Platform.OS === 'web' && {
-      outlineStyle: 'none',
+    ...(Platform.OS === "web" && {
+      outlineStyle: "none",
       outlineWidth: 0,
     }),
   },
 
   button: {
-    marginTop: 10,
+    marginTop: 20,
     borderRadius: 30,
-    overflow: 'hidden',
+    overflow: "hidden",
     width: "70%",
-    height: 50,
+    height: "6%",
   },
 
   buttonText: {

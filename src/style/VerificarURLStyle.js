@@ -1,4 +1,6 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
 
 const verificarURLStyle = StyleSheet.create({
   container: {
@@ -6,7 +8,6 @@ const verificarURLStyle = StyleSheet.create({
     backgroundColor: "#121212",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 40,
   },
 
   logoContainer: {
@@ -64,8 +65,9 @@ const verificarURLStyle = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     fontSize: 14,
     paddingLeft: 10,
-    ...(Platform.OS === 'web' && {
-      outlineStyle: 'none',
+    ...(Platform.OS === "web" && {
+      outlineStyle: "none",
+      outlineWidth: 0,
     }),
   },
 
@@ -77,8 +79,8 @@ const verificarURLStyle = StyleSheet.create({
   button: {
     backgroundColor: "#FF6600",
     borderRadius: 20,
-    width: 160,
-    height: 40,
+    width: width * 0.5, // 50% da largura da tela
+    height: 44,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
@@ -92,7 +94,6 @@ const verificarURLStyle = StyleSheet.create({
   },
 
   alertMessage: {
-    color: "#FF3B30",
     fontSize: 14,
     fontFamily: "Poppins_400Regular",
     marginBottom: 20,

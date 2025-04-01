@@ -1,4 +1,6 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 const loginstyle = StyleSheet.create({
   background: {
@@ -10,9 +12,7 @@ const loginstyle = StyleSheet.create({
 
   cardForm: {
     width: "100%",
-    height: "90%",
     maxWidth: 370,
-    maxHeight: 500,
     backgroundColor: "#2C2C2E",
     padding: 24,
     borderTopLeftRadius: 40,
@@ -25,10 +25,11 @@ const loginstyle = StyleSheet.create({
     elevation: 6,
     position: "absolute",
     bottom: 0,
+    height: height * 0.85, // 85% da altura da tela
   },
 
   titleStyle: {
-    marginTop: "18",
+    marginTop: 16,
     color: "white",
     fontSize: 26,
     fontWeight: "bold",
@@ -44,7 +45,7 @@ const loginstyle = StyleSheet.create({
     paddingVertical: 14,
     borderWidth: 2,
     borderColor: "#3B3B3F",
-    marginTop: "35",
+    marginTop: 12,
     marginBottom: 16,
     width: "100%",
     backgroundColor: "#2C2C2E",
@@ -56,16 +57,16 @@ const loginstyle = StyleSheet.create({
     fontSize: 16,
     color: "white",
     fontFamily: "Poppins_400Regular",
-    ...(Platform.OS === 'web' && {
-      outlineStyle: 'none',
+    ...(Platform.OS === "web" && {
+      outlineStyle: "none",
       outlineWidth: 0,
     }),
   },
 
   button: {
-    marginTop: 10,
+    marginTop: 16,
     borderRadius: 30,
-    overflow: 'hidden',
+    overflow: "hidden",
     width: "70%",
     height: 50,
   },

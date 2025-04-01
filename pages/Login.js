@@ -10,7 +10,8 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { getData } from "../services/storage";
 import styles from "../src/style/loginStyle";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
+import { useAuth } from "../src/context/AuthContext"; // ✅ Importa o contexto
 
 import {
   useFonts,
@@ -23,7 +24,8 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  // Carrega as fontes
+  const { setIsAuthenticated } = useAuth(); // ✅ Usa o setter do contexto
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold,
@@ -46,9 +48,12 @@ export default function Login({ navigation }) {
       );
 
       if (user) {
-        navigation.navigate("URLVerification");
+        setIsAuthenticated(true); // ✅ Ativa o fluxo de navegação condicional
       } else {
-        Alert.alert("E-mail ou senha incorretos", "Verifique suas credenciais.");
+        Alert.alert(
+          "E-mail ou senha incorretos",
+          "Verifique suas credenciais."
+        );
       }
     } catch (error) {
       console.error("Erro ao fazer login", error);
@@ -58,7 +63,7 @@ export default function Login({ navigation }) {
 
   return (
     <ImageBackground
-      source={require('../src/img/fundoLogin.png')}
+      source={require("../src/img/fundoLogin.png")}
       style={styles.background}
       resizeMode="cover"
     >
@@ -69,7 +74,10 @@ export default function Login({ navigation }) {
         <View style={styles.inputContainer}>
           <FontAwesome name="envelope" size={17} color="#636363" />
           <TextInput
-            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]}
+            style={[
+              styles.input,
+              { fontFamily: "Poppins_400Regular", color: "white" },
+            ]}
             placeholder="E-mail"
             placeholderTextColor="#aaa"
             value={email}
@@ -82,7 +90,10 @@ export default function Login({ navigation }) {
         <View style={styles.inputContainer}>
           <FontAwesome name="lock" size={17} color="#636363" />
           <TextInput
-            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]}
+            style={[
+              styles.input,
+              { fontFamily: "Poppins_400Regular", color: "white" },
+            ]}
             placeholder="Senha"
             placeholderTextColor="#aaa"
             secureTextEntry
@@ -92,13 +103,10 @@ export default function Login({ navigation }) {
         </View>
 
         {/* Botão */}
-        <LinearGradient
-          colors={["#ff6600", "#ff9900"]}
-          style={styles.button}
-        >
+        <LinearGradient colors={["#ff6600", "#ff9900"]} style={styles.button}>
           <TouchableOpacity
             onPress={handleLogin}
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
@@ -110,7 +118,8 @@ export default function Login({ navigation }) {
             style={styles.registerLink}
             onPress={() => navigation.navigate("Register")}
           >
-            {" "}Cadastre-se
+            {" "}
+            Cadastre-se
           </Text>
         </Text>
       </View>

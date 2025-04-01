@@ -1,20 +1,33 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useAuth } from "../src/context/AuthContext";
 
 import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
 import VerificarURL from "../pages/VerificarURL";
+import Historico from "../pages/Historico"; // 👈 lembre de importar
 
 const Stack = createStackNavigator();
 
 export default function AppNavigator() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Cadastro} />
-        <Stack.Screen name="URLVerification" component={VerificarURL} />
+        {isAuthenticated ? (
+          // ✅ Envolvendo múltiplas telas com React.Fragment
+          <>
+            <Stack.Screen name="VerificarURL" component={VerificarURL} />
+            <Stack.Screen name="Historico" component={Historico} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Cadastro} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -11,9 +11,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { saveData, getData } from "../services/storage";
 import styles from "../src/style/cadastroStyle";
 
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
-import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 import AppLoading from "expo-app-loading";
 
 export default function Cadastro({ navigation }) {
@@ -46,7 +50,10 @@ export default function Cadastro({ navigation }) {
 
           await saveData("users", updatedUsers);
 
-          Alert.alert("Cadastro concluído!", "Sua conta foi criada com sucesso.");
+          Alert.alert(
+            "Cadastro concluído!",
+            "Sua conta foi criada com sucesso."
+          );
         }
       } catch (error) {
         console.error("Erro ao salvar os dados", error);
@@ -58,7 +65,7 @@ export default function Cadastro({ navigation }) {
 
   return (
     <ImageBackground
-      source={require('../src/img/fundoLogin.png')}
+      source={require("../src/img/fundoLogin.png")}
       style={styles.background}
       resizeMode="cover"
     >
@@ -69,7 +76,10 @@ export default function Cadastro({ navigation }) {
         <View style={styles.inputContainer}>
           <FontAwesome name="envelope" size={17} color="#636363" />
           <TextInput
-            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]} // Aplicando a cor branca
+            style={[
+              styles.input,
+              { fontFamily: "Poppins_400Regular", color: "white" },
+            ]} // Aplicando a cor branca
             placeholder="E-mail"
             placeholderTextColor="#aaa"
             value={email}
@@ -81,7 +91,10 @@ export default function Cadastro({ navigation }) {
         <View style={styles.inputContainer}>
           <FontAwesome name="lock" size={17} color="#636363" />
           <TextInput
-            style={[styles.input, { fontFamily: "Poppins_400Regular", color: "white" }]} // Aplicando a cor branca
+            style={[
+              styles.input,
+              { fontFamily: "Poppins_400Regular", color: "white" },
+            ]} // Aplicando a cor branca
             placeholder="Senha"
             placeholderTextColor="#aaa"
             secureTextEntry
@@ -92,22 +105,25 @@ export default function Cadastro({ navigation }) {
 
         {/* Linear Gradient no fundo do botão */}
         <LinearGradient
-          colors={["#ff6600", "#ff9900"]}  // Cores do gradiente
-          style={styles.button}  // Usando o estilo já existente para o botão
+          colors={["#ff6600", "#ff9900"]} // Cores do gradiente
+          style={styles.button} // Usando o estilo já existente para o botão
         >
-          <TouchableOpacity onPress={handleCadastro} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={styles.buttonText}>Cadastrar</Text> 
+          <TouchableOpacity
+            onPress={handleCadastro}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text style={styles.buttonText}>Cadastrar</Text>
           </TouchableOpacity>
         </LinearGradient>
 
         <Text style={styles.registerText}>
           Já tem uma conta?
           <Text style={styles.registerLink} onPress={() => navigation.goBack()}>
-            {" "}Faça Login
+            {" "}
+            Faça Login
           </Text>
         </Text>
       </View>
     </ImageBackground>
   );
 }
- 
