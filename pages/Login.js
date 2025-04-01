@@ -11,7 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { getData } from "../services/storage";
 import styles from "../src/style/loginStyle";
 import { LinearGradient } from "expo-linear-gradient";
-import { useAuth } from "../src/context/AuthContext"; // ✅ Importa o contexto
+import { useAuth } from "../src/context/AuthContext"; 
 
 import {
   useFonts,
@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const { setIsAuthenticated } = useAuth(); // ✅ Usa o setter do contexto
+  const { setIsAuthenticated } = useAuth(); 
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -48,7 +48,7 @@ export default function Login({ navigation }) {
       );
 
       if (user) {
-        setIsAuthenticated(true); // ✅ Ativa o fluxo de navegação condicional
+        setIsAuthenticated(true); 
       } else {
         Alert.alert(
           "E-mail ou senha incorretos",

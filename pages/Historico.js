@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect, useState } from "react"; 
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -10,9 +10,15 @@ export default function Historico() {
   const navigation = useNavigation();
 
   const carregarLinks = async () => {
-    const saved = await AsyncStorage.getItem("maliciousLinks");
-    if (saved) {
-      setLinks(JSON.parse(saved).reverse());
+    try {
+      const saved = await AsyncStorage.getItem("maliciousLinks");
+      if (saved) {
+        setLinks(JSON.parse(saved).reverse());
+      } else {
+        setLinks([]);
+      }
+    } catch (error) {
+      console.error("Erro ao carregar os links:", error);
     }
   };
 
@@ -26,22 +32,8 @@ export default function Historico() {
     setLinks(atualizado);
   };
 
-  const limparHistorico = async () => {
-    Alert.alert("Confirmar", "Deseja realmente limpar o histórico?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Limpar",
-        style: "destructive",
-        onPress: async () => {
-          await AsyncStorage.removeItem("maliciousLinks");
-          setLinks([]);
-        },
-      },
-    ]);
-  };
-
   const voltar = () => {
-    navigation.goBack(); // Volta para VerificarURL
+    navigation.goBack(); 
   };
 
   return (
@@ -76,12 +68,6 @@ export default function Historico() {
             </View>
           )}
         />
-      )}
-
-      {links.length > 0 && (
-        <TouchableOpacity style={styles.clearButton} onPress={limparHistorico}>
-          <Text style={styles.clearButtonText}>Limpar Tudo</Text>
-        </TouchableOpacity>
       )}
     </View>
   );

@@ -24,13 +24,12 @@ export default function Cadastro({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  // Carregar as fontes
+  //  fontes
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold,
   });
 
-  // Caso as fontes não estejam carregadas, exibe uma tela de carregamento
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -72,14 +71,14 @@ export default function Cadastro({ navigation }) {
       <View style={styles.cardForm}>
         <Text style={styles.titleStyle}>Cadastro</Text>
 
-        {/* Campo E-mail */}
+        {/* E-mail */}
         <View style={styles.inputContainer}>
           <FontAwesome name="envelope" size={17} color="#636363" />
           <TextInput
             style={[
               styles.input,
               { fontFamily: "Poppins_400Regular", color: "white" },
-            ]} // Aplicando a cor branca
+            ]} 
             placeholder="E-mail"
             placeholderTextColor="#aaa"
             value={email}
@@ -87,14 +86,14 @@ export default function Cadastro({ navigation }) {
           />
         </View>
 
-        {/* Campo Senha */}
+        {/* Senha */}
         <View style={styles.inputContainer}>
           <FontAwesome name="lock" size={17} color="#636363" />
           <TextInput
             style={[
               styles.input,
               { fontFamily: "Poppins_400Regular", color: "white" },
-            ]} // Aplicando a cor branca
+            ]} 
             placeholder="Senha"
             placeholderTextColor="#aaa"
             secureTextEntry
@@ -103,10 +102,10 @@ export default function Cadastro({ navigation }) {
           />
         </View>
 
-        {/* Linear Gradient no fundo do botão */}
+        {/* botão tela cadastro */}
         <LinearGradient
-          colors={["#ff6600", "#ff9900"]} // Cores do gradiente
-          style={styles.button} // Usando o estilo já existente para o botão
+          colors={["#ff6600", "#ff9900"]} 
+          style={styles.button} 
         >
           <TouchableOpacity
             onPress={handleCadastro}

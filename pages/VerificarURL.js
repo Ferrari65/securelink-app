@@ -30,7 +30,6 @@ export default function VerificarURL() {
         const existing =
           JSON.parse(await AsyncStorage.getItem("maliciousLinks")) || [];
 
-        // Verifica se o link já foi salvo
         const jaExiste = existing.some((item) => item.url === url);
 
         if (!jaExiste) {

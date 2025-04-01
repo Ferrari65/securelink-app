@@ -6,7 +6,7 @@ import { useAuth } from "../src/context/AuthContext";
 import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
 import VerificarURL from "../pages/VerificarURL";
-import Historico from "../pages/Historico"; // 👈 lembre de importar
+import Historico from "../pages/Historico"; 
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
-          // ✅ Envolvendo múltiplas telas com React.Fragment
+  
           <>
             <Stack.Screen name="VerificarURL" component={VerificarURL} />
             <Stack.Screen name="Historico" component={Historico} />
